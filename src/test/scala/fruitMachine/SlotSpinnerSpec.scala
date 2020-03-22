@@ -4,13 +4,13 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 class SlotSpinnerSpec extends AnyWordSpec with Matchers {
-  val spinner = SlotSpinner(1, 2, 3, 4)
-  val winnerSpinner = SlotSpinner(2, 2, 2, 2)
+  val spinner: SlotSpinner = SlotSpinner(1, 2, 3, 4)
+  val winnerSpinner: SlotSpinner = SlotSpinner(2, 2, 2, 2)
 
   "Spin" should {
     "return correct outcome" in {
-      spinner.spin should be(Lose)
-      winnerSpinner.spin should be(AllEqual)
+      spinner.spin should be((Lose, "1, 2, 3, 4"))
+      winnerSpinner.spin should be((AllEqual, "2, 2, 2, 2"))
     }
   }
 }
