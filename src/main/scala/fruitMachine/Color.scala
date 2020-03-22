@@ -1,5 +1,8 @@
 package fruitMachine
 
 object Color extends Enumeration {
-  val Black, White, Green, Yellow = Value
+  val Black = Value("Black")
+  val White = Value("White")
+  val Green = Value("Green")
+  val Yellow = Value("Yellow")
 }
