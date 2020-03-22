@@ -1,8 +1,5 @@
 package fruitMachine
 
-sealed trait Color
-
-case object Black extends Color
-case object White extends Color
-case object Green extends Color
-case object Yellow extends Color
+object Color extends Enumeration {
+  val Black, White, Green, Yellow = Value
+}

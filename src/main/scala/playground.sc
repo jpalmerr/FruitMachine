@@ -1,24 +1,35 @@
-sealed trait Color
+import scala.util.Random
 
-case object Black extends Color
-case object White extends Color
-case object Green extends Color
-case object Yellow extends Color
+sealed trait Outcome
+case object AllEqual extends Outcome
+case object Lose extends Outcome
 
-case class FruitMachine(slot1: Color, slot2: Color, slot3: Color, slot4: Color) {
-
-  def display: List[Color] = List(slot1, slot2, slot3, slot4)
-
-  def result: Boolean = {
-    slot1 == slot2 && slot1 == slot3 && slot1 == slot4
-  }
-
+object Color extends Enumeration {
+  val Black, White, Green, Yellow = Value
 }
 
-val fruity = FruitMachine(Black, White, Green, Yellow)
-val winner = FruitMachine(Black, Black, Black, Black)
+class SlotSpinner {
+  def spin: Outcome = {
+    val slots = (Random.nextInt(Color.maxId),
+                 Random.nextInt(Color.maxId),
+                 Random.nextInt(Color.maxId),
+                 Random.nextInt(Color.maxId)
+                )
 
-fruity.display
+    slots match {
+      case (s1, s2, s3, s4)  => results(s1, s2, s3, s4)
+    }
+  }
 
-fruity.result
-winner.result
+  private def results(slot1: Int, slot2: Int, slot3: Int, slot4: Int): Outcome = {
+    if (slot1 == slot2 && slot2 == slot3 && slot3 == slot4) AllEqual
+    else Lose
+  }
+}
+
+val spinner: SlotSpinner = new SlotSpinner
+spinner.spin
+
+case class FruitMachine(jackpot: Int, costToPlay: Int) {
+
+}
