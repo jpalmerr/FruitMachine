@@ -3,12 +3,12 @@ package fruitMachine
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-case class FruitMachineSpec() extends AnyWordSpec with Matchers {
+case class MachineSpec() extends AnyWordSpec with Matchers {
 
   val spinner: SlotSpinner = SlotSpinner(1, 2, 3, 4)
   val winnerSpinner: SlotSpinner = SlotSpinner(2, 2, 2, 2)
-  val winner: FruitMachine = FruitMachine(winnerSpinner, 1000)
-  val loser: FruitMachine = FruitMachine(spinner, 1000)
+  val winner: Machine = Machine(winnerSpinner, 1000)
+  val loser: Machine = Machine(spinner, 1000)
 
   "Winnings" should {
     "calculate winnings owed" in {
