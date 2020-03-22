@@ -9,6 +9,16 @@ case class FruitMachine(slot1: Color, slot2: Color, slot3: Color, slot4: Color) 
 
   def display: List[Color] = List(slot1, slot2, slot3, slot4)
 
+  def result: Boolean = {
+    slot1 == slot2 && slot1 == slot3 && slot1 == slot4
+  }
+
 }
 
-FruitMachine(Black, White, Green, Yellow).display
+val fruity = FruitMachine(Black, White, Green, Yellow)
+val winner = FruitMachine(Black, Black, Black, Black)
+
+fruity.display
+
+fruity.result
+winner.result
