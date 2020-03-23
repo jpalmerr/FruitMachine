@@ -2,24 +2,28 @@ package fruitMachine
 
 object FruitMachineApp extends App {
 
-  // TODO: Logic for updating player and machine
+  val initialJackpot: Int = 1000
+  val machine: Option[Machine] = Some(Machine(SlotSpinner(), 5, initialJackpot))
+  val player: Option[Player] = Some(Player(15))
 
-  val player = Player(20)
-  val machine = Machine(SlotSpinner(), 5, 1000)
+  (1 to 10).foldLeft((player, machine)){
+      case ((Some(p), Some(m)), _) =>
+        println(s"Your credit: ${p.money}, jackpot: ${m.jackpot}")
+        println("Spinning...")
+        println(m.display)
+        m.play(p)
 
-  println(s"The jackpot today is ${machine.jackpot}")
-  println(s"Spinning...")
-  println(machine.display)
-  val updatedPlayer = machine.play(player)
-  println(s"You have ${updatedPlayer.money}")
+      case ((None, Some(m)), _) =>
+        println(s"Sorry, you need £${m.priceToPlay} to play.")
+        (None, None)
 
-//  val riggedMachine = Machine(SlotSpinner(2, 2, 2, 2), 5, 1000)
-//  println(s"You're going to win this time...")
-//  println(s"Spinning...")
-//  println(riggedMachine.display)
-//  val updatedRiggedPlayer = riggedMachine.play(player)
-//  println(s"You have ${updatedRiggedPlayer.money}")
-//  println(s"You're going to win this time...")
-
+      case ((Some(p), None), _) =>
+        println(s"You hit the jackpot, collect your winnings: ${p.money}")
+        (None, None)
+      case ((None, None), _) =>
+        println("Goodbye")
+        System.exit(200)
+        (None, None)
+  }
 
 }

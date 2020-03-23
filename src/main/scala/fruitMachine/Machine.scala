@@ -2,26 +2,30 @@ package fruitMachine
 
 case class Machine(spinner: SlotSpinner, priceToPlay: Int, jackpot: Int) {
 
-  val run: (Outcome, String) = spinner.spin
+  lazy val run: (Outcome, String) = spinner.spin
 
   def display: String = s"${run._2}: ${run._1}"
 
-  def play(player: Player): Player = {
-    if (player.money > priceToPlay) {
+  def play(player: Player): (Option[Player], Option[Machine]) = {
+    if (player.money >= priceToPlay) {
       val outcome: Int = winnings(run._1)
 
-      if (outcome > 0)  {
-        val newCredit = outcome + player.money
-        Player(newCredit)
-      } else {
-        Player(player.money - priceToPlay)
+      if (outcome == jackpot) {
+        (Some(Player(player.money + jackpot + priceToPlay)), None)
       }
-    } else player
+      else if (outcome > 0 && outcome < jackpot)  {
+        val newCredit = outcome + player.money
+        (Some(Player(newCredit)), Some(Machine(SlotSpinner(), priceToPlay, jackpot - outcome)))
+      } else {
+        (Some(Player(player.money - priceToPlay)), Some(Machine(SlotSpinner(), priceToPlay, jackpot + priceToPlay)))
+      }
+    } else (None, Some(Machine(SlotSpinner(), priceToPlay, jackpot)))
   }
 
   def winnings(outcome: Outcome): Int =
     outcome match {
       case AllEqual => jackpot
+      case TwoAdjacent => priceToPlay * 5
       case Lose => 0
     }
 
