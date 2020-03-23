@@ -10,12 +10,12 @@ case class Machine(spinner: SlotSpinner, priceToPlay: Int, jackpot: Int) {
     if (player.money >= priceToPlay) {
       val outcome: Int = winnings(run._1)
 
-      if (outcome == jackpot) {
+      if (outcome >= jackpot) {
         (Some(Player(player.money + jackpot + priceToPlay)), None)
       }
       else if (outcome > 0 && outcome < jackpot)  {
-        val newCredit = outcome + player.money
-        (Some(Player(newCredit)), Some(Machine(SlotSpinner(), priceToPlay, jackpot - outcome)))
+        val newCredit = outcome + player.money - priceToPlay
+        (Some(Player(newCredit)), Some(Machine(SlotSpinner(), priceToPlay, jackpot - outcome + priceToPlay)))
       } else {
         (Some(Player(player.money - priceToPlay)), Some(Machine(SlotSpinner(), priceToPlay, jackpot + priceToPlay)))
       }
@@ -24,8 +24,9 @@ case class Machine(spinner: SlotSpinner, priceToPlay: Int, jackpot: Int) {
 
   def winnings(outcome: Outcome): Int =
     outcome match {
-      case AllEqual => jackpot
-      case Unique => jackpot / 2
+      case AllEqual => jackpot + priceToPlay
+      case Unique => (jackpot + priceToPlay) / 2
+      case OneShort => priceToPlay / 2
       case Lose => 0
     }
 

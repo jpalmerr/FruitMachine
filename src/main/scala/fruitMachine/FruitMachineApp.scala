@@ -2,9 +2,9 @@ package fruitMachine
 
 object FruitMachineApp extends App {
 
-  val initialJackpot: Int = 1000
-  val machine: Option[Machine] = Some(Machine(SlotSpinner(), 5, initialJackpot))
-  val player: Option[Player] = Some(Player(15))
+  val initialJackpot: Int = 100
+  val machine: Option[Machine] = Some(Machine(SlotSpinner(1, 2, 2, 2), 10, initialJackpot))
+  val player: Option[Player] = Some(Player(30))
 
   (1 to 10).foldLeft((player, machine)){
       case ((Some(p), Some(m)), _) =>

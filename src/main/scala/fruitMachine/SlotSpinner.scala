@@ -12,12 +12,14 @@ case class SlotSpinner(s1: Int = Random.nextInt(Color.maxId),
 
   def spin: (Outcome, String) = {
     val display = s"${s1.toString}, ${s2.toString}, ${s3.toString}, ${s4.toString}"
-    (results(NonEmptyList(s1, List(s2, s3, s4))), display)
+    (results(s1, s2, s3, s4), display)
   }
 
-  private def results(slots: NonEmptyList[Int]): Outcome = {
+  private def results(s1: Int, s2: Int, s3: Int, s4: Int): Outcome = {
+    val slots: NonEmptyList[Int] = NonEmptyList(s1, List(s2, s3, s4))
     if (slots.distinct.length == 1) AllEqual
     else if (slots.distinct.length == slots.length) Unique
+    else if (slots.distinct.length == 2) OneShort
     else Lose
   }
 }
