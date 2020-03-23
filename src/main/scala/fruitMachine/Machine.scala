@@ -25,7 +25,7 @@ case class Machine(spinner: SlotSpinner, priceToPlay: Int, jackpot: Int) {
   def winnings(outcome: Outcome): Int =
     outcome match {
       case AllEqual => jackpot
-      case TwoAdjacent => priceToPlay * 5
+      case Unique => jackpot / 2
       case Lose => 0
     }
 
