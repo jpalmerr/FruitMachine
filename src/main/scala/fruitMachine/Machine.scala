@@ -4,14 +4,14 @@ case class Machine(spinner: SlotSpinner, priceToPlay: Int, jackpot: Int) {
 
   lazy val run: (Outcome, String) = spinner.spin
 
-  def display: String = s"${run._2}: ${run._1}"
+  def display: String = s"Spinning...${run._2}: ${run._1}"
 
   def play(player: Player): (Option[Player], Option[Machine]) = {
     if (player.money >= priceToPlay) {
-      val outcome: Int = winnings(run._1)
+      lazy val outcome: Int = winnings(run._1)
 
       if (outcome >= jackpot) {
-        (Some(Player(player.money + jackpot + priceToPlay)), None)
+        (Some(Player(player.money + jackpot)), None)
       }
       else if (outcome > 0 && outcome < jackpot)  {
         val newCredit = outcome + player.money - priceToPlay
@@ -26,7 +26,7 @@ case class Machine(spinner: SlotSpinner, priceToPlay: Int, jackpot: Int) {
     outcome match {
       case AllEqual => jackpot + priceToPlay
       case Unique => (jackpot + priceToPlay) / 2
-      case OneShort => priceToPlay / 2
+      case TwoAdjacent => priceToPlay / 2
       case Lose => 0
     }
 

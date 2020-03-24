@@ -19,7 +19,7 @@ case class SlotSpinner(s1: Int = Random.nextInt(Color.maxId),
     val slots: NonEmptyList[Int] = NonEmptyList(s1, List(s2, s3, s4))
     if (slots.distinct.length == 1) AllEqual
     else if (slots.distinct.length == slots.length) Unique
-    else if (slots.distinct.length == 2) OneShort
+    else if (s1 == s2 || s2 == s3 || s3 == s4 ) TwoAdjacent
     else Lose
   }
 }

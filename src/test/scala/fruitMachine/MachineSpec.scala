@@ -14,7 +14,7 @@ case class MachineSpec() extends AnyWordSpec with Matchers {
   "Winnings" should {
     "calculate winnings owed" in {
       machine.winnings(AllEqual) should be(1010)
-      machine.winnings(OneShort) should be(5)
+      machine.winnings(TwoAdjacent) should be(5)
       machine.winnings(Unique) should be(505)
       machine.winnings(Lose) should be(0)
     }
@@ -22,7 +22,7 @@ case class MachineSpec() extends AnyWordSpec with Matchers {
 
   "Play" should {
     "return a message with the correct winnings" in {
-      winner.play(player) should be((Some(Player(1035)),None))
+      winner.play(player) should be((Some(Player(1030)),None))
       // TODO: improve testing
     }
   }
